@@ -8,11 +8,9 @@
 /source
 .idea/
 config.ini
-/venv
 
 *.sublime-project
 *.sublime-workspace
-
 
 __pycache__/
 *.py[cod]
