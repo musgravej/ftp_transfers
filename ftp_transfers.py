@@ -46,12 +46,11 @@ def transfer_to_ftp():
 
 
 def send_email_message():
-    port = 587
+    port = 25
     smtp_server = g.email_server
     sender_email = g.email_user
     email_from = g.email_from
     receiver_email = g.email_to
-    password = g.email_password
     download_time = datetime.datetime.strftime(datetime.datetime.now(),
                                                "%Y-%m-%d %H:%M")
 
@@ -63,7 +62,7 @@ def send_email_message():
     text = "Transfer complete"
 
     html = ("<html> <head> <style> td, th {{ border: 1px solid #dddddd; text-align: left; padding: 8px;}}"
-            "</style> </head> <body> <p>The following {fle_format} been been downloaded from the FTP:<br> "
+            "</style> </head> <body> <p>The following {fle_format} been downloaded from the FTP:<br> "
             "</p> <table width: 100%;> <tr> <th>File</th> </tr> "
             "{table_data} </table> </body> </html> "
             "<p>Files have been saved to {destination} </p>".format(table_data=table_data,
@@ -82,8 +81,9 @@ def send_email_message():
     with smtplib.SMTP(smtp_server, port) as server:
         # server.set_debuglevel(1)
         server.starttls()
-        server.login(sender_email, password)
-        server.sendmail(email_from, receiver_email, message.as_string())
+        # server.login(sender_email, password)
+        print("sending email")
+        server.sendmail(email_from,  message["To"].split(","), message.as_string())
 
 
 def main():
